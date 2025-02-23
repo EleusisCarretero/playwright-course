@@ -19,8 +19,9 @@ export class VisitPage extends BaseProduct{
 
     get basketCounter() {
         return (async () => {
-            // await this.__basketCounter__.waitFor();
-            return await this.__basketCounter__.textContent();
+            await this.__basketCounter__.waitFor()
+            let basketCountText = await this.__basketCounter__.innerText();
+            return parseInt(basketCountText, 10)
         })();
     }
 }

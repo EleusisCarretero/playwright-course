@@ -4,12 +4,22 @@ import { ProductPage } from "../page-objects/ProdructPage";
 test.only("Product Page Add To Masket", async ({page})=>{
 
     //1. Create page products instances
+    const idexItemsToAdd = [1, 2, 4]
     const productPage =  new ProductPage(page)
     await productPage.openPage()
-    const AvailablePrdicts = productPage.totalProductsAvailable
 
     // 2. Add the products
-    productPage.addManyProductsToBasketInOrder(AvailablePrdicts)
+    for (const index of idexItemsToAdd){
+        productPage.addProductToBasket(index);
+        await page.waitForTimeout(500);
+    }
+    // productPage.addProductToBasket(2);
+    // await page.waitForTimeout(2000);
+
+    // 3. Go to checkout
+    productPage.goToCheckoutPage();
+   
+   
     
 
 
@@ -40,7 +50,7 @@ test.only("Product Page Add To Masket", async ({page})=>{
     // await page.waitForTimeout(1000);
     // await checkOutLink.click();
     // await page.waitForURL("/basket");
-    // await page.waitForTimeout(2000);
+    await page.waitForTimeout(2000);
     
 
 })

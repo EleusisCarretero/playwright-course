@@ -1,4 +1,6 @@
+import { expect } from "@playwright/test";
 import { BaseProduct } from "./BasePage";
+import { VisitPage } from "./visitPage";
 
 export class ProductPage extends BaseProduct{
     constructor(page){
@@ -7,20 +9,22 @@ export class ProductPage extends BaseProduct{
         this.totalProductsAvailable = async ()=>{
             return await this.addButtons.count();
         }
-        this.ProductsAdded = 0;
+        this.currentIndx = 0;
+        this.visitPage = new VisitPage(page)
     }
     addProductToBasket = async (index) => {
-        await this.addButtons.nth(index).waitFor()
-        await this.addButtons.nth(index).click()
-        this.ProductsAdded ++
-        this.totalProductsAvailable = this.totalProductsAvailable - this.ProductsAdded
+        const specificButton = this.addButtons.nth(index);
+        await specificButton.waitFor();
+        await expect(specificButton).toHaveText("Add to Basket");
+        const basketCountBefore =  await this.visitPage.basketCounter;
+        await specificButton.click();
+        await expect(specificButton).toHaveText("Remove from Basket");
+        const basketCountAfter =  await this.visitPage.basketCounter;
+        expect(basketCountAfter).toBeGreaterThan(basketCountBefore);
     }
 
-    addManyProductsToBasketInOrder = async (numProducts) => {
-        while(this.ProductsAdded < numProducts){
-            await this.addProductToBasket(this.ProductsAdded)
-            await this.page.waitForTimeout(2000);
-        }
+    goToCheckoutPage = () => {
+        this.visitPage.goToCheckout()
     }
 
 }
