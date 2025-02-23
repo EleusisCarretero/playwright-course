@@ -11,6 +11,11 @@ test.only("Product Page Add To Masket", async ({page})=>{
     const checkoutPage = new CheckoutPage(page);
     await productPage.openPage();
 
+    // sort
+    await productPage.sortBy();
+    await page.waitForTimeout(1000);
+    
+
     // 2. Add the products
     for (const index of idexItemsToAdd){
         productPage.addProductToBasket(index);
