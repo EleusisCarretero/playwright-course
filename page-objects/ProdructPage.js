@@ -23,8 +23,9 @@ export class ProductPage extends BaseProduct{
         expect(basketCountAfter).toBeGreaterThan(basketCountBefore);
     }
 
-    goToCheckoutPage = () => {
-        this.visitPage.goToCheckout()
+    goToCheckoutPage = async() => {
+        await this.page.waitForTimeout(1000);
+        await this.visitPage.goToCheckout()
     }
 
 }

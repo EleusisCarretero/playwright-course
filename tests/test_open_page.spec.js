@@ -17,7 +17,8 @@ test.only("Product Page Add To Masket", async ({page})=>{
     // await page.waitForTimeout(2000);
 
     // 3. Go to checkout
-    productPage.goToCheckoutPage();
+    await productPage.goToCheckoutPage();
+    // await this.page.waitForTimeout(2000);
    
    
     
@@ -50,7 +51,7 @@ test.only("Product Page Add To Masket", async ({page})=>{
     // await page.waitForTimeout(1000);
     // await checkOutLink.click();
     // await page.waitForURL("/basket");
-    await page.waitForTimeout(2000);
+    // await page.waitForTimeout(2000);
     
 
 })
