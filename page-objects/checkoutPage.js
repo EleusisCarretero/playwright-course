@@ -1,4 +1,5 @@
 import { BaseProduct } from "./BasePage";
+import { expect } from "@playwright/test";
 
 
 export class CheckoutPage extends BaseProduct{
@@ -12,8 +13,20 @@ export class CheckoutPage extends BaseProduct{
     }
     removeCheapestProduct =  async () => {
         await this.basketCards.first().waitFor();
+        const itemsBeforeRemoval =  await this.basketCards.count()
         await this.basketItemPrice.first().waitFor();
-        const allPricesText =  await this.basketItemPrice.allInnerText();
-        console.log({allPricesText})
+        const allPricesText =  await this.basketItemPrice.allInnerTexts();
+        // get just number value
+        const justNumbers = allPricesText.map((element) => {
+            console.warn({element})
+            return parseFloat(element.replace("$",""))
+        })
+        console.warn({justNumbers})
+        const smallestPrice = Math.min(justNumbers);
+        const smallestPriceIdx = justNumbers.indexOf(smallestPrice);
+        const specificRemoveButton = this.basketItemRemoveButton.nth(smallestPriceIdx);
+        await specificRemoveButton.waitFor();
+        await specificRemoveButton.click();
+        await expect(this.basketCards).toHaveCount(itemsBeforeRemoval - 1);
     }
 }

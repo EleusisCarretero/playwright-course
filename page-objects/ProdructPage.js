@@ -24,7 +24,6 @@ export class ProductPage extends BaseProduct{
     }
 
     goToCheckoutPage = async() => {
-        await this.page.waitForTimeout(1000);
         await this.visitPage.goToCheckout()
     }
 
