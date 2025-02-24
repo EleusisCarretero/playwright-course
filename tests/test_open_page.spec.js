@@ -1,5 +1,5 @@
 import { test, expect} from "@playwright/test"
-import { ProductPage } from "../page-objects/ProdructPage";
+import { ProductPage, sortingBy } from "../page-objects/ProdructPage";
 import { VisitPage } from "../page-objects/visitPage";
 import { CheckoutPage } from "../page-objects/checkoutPage";
 
@@ -11,21 +11,21 @@ test.only("Product Page Add To Masket", async ({page})=>{
     const checkoutPage = new CheckoutPage(page);
     await productPage.openPage();
 
-    // sort
-    await productPage.sortBy();
-    await page.waitForTimeout(1000);
+    // 2. Sorting elements
+    await productPage.sortBy(sortingBy.mostExpensive);
+    await page.waitForTimeout(50);
     
 
-    // 2. Add the products
+    // 3. Add the products
     for (const index of idexItemsToAdd){
         productPage.addProductToBasket(index);
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(50);
     }
 
-    // 3. Go to checkout
+    // 4. Go to checkout
     await productPage.goToCheckoutPage();
 
-    // 4. Remove item
+    // 5. Remove item
     await checkoutPage.removeCheapestProduct();
    
     

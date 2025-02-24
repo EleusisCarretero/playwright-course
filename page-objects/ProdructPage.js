@@ -3,9 +3,9 @@ import { BaseProduct } from "./BasePage";
 import { VisitPage } from "./visitPage";
 
 
-const sortingBy = {
+export const sortingBy = {
     cheapeast: "price-asc",
-    expensivest: "price-asc",
+    mostExpensive: "price-asc",
 }
 
 export class ProductPage extends BaseProduct{
@@ -41,7 +41,7 @@ export class ProductPage extends BaseProduct{
         const productTitlesBeforeSorting = await this.productTitle.allInnerTexts();
         await this.sortDropdown.selectOption(sortby)
         const productTitlesAfterSorting = await this.productTitle.allInnerTexts()
-        expect(productTitlesAfterSorting).not.toEqual(productTitlesBeforeSorting)
+        await expect(productTitlesAfterSorting).not.toEqual(productTitlesBeforeSorting)
 
     }
 
