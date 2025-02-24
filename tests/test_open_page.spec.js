@@ -27,6 +27,10 @@ test.only("Product Page Add To Masket", async ({page})=>{
 
     // 5. Remove item
     await checkoutPage.removeCheapestProduct();
+
+    // 6. Continue to Checkout
+    await checkoutPage.continueToCheckout();
+    await page.waitForTimeout(100);
    
     
 

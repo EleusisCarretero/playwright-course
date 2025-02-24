@@ -9,6 +9,7 @@ export class CheckoutPage extends BaseProduct{
         this.basketCards = this.page.locator("[data-qa='basket-card']");
         this.basketItemPrice = this.page.locator("[data-qa='basket-item-price']");
         this.basketItemRemoveButton = this.page.locator("[data-qa='basket-card-remove-item']")
+        this.continueToCheckoutButton = this.page.getByRole("button", {name: "Continue to Checkout"})
 
     }
     removeCheapestProduct =  async () => {
@@ -28,5 +29,14 @@ export class CheckoutPage extends BaseProduct{
         await specificRemoveButton.waitFor();
         await specificRemoveButton.click();
         await expect(this.basketCards).toHaveCount(itemsBeforeRemoval - 1);
+    }
+
+    continueToCheckout = async () => {
+        await this.continueToCheckoutButton.waitFor();
+        await expect(this.continueToCheckoutButton).toHaveText("Continue to Checkout");
+        await this.continueToCheckoutButton.click();
+        await this.page.waitForTimeout(1000);
+        await this.page.waitForURL(/\/login/)
+        
     }
 }
