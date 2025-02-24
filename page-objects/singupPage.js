@@ -29,6 +29,8 @@ export class SigupPage extends BaseProduct{
         await this.registerButton.waitFor();
         await expect(this.registerButton).toHaveText("Register");
         await this.registerButton.click();
+        await this.page.waitForTimeout(1000);
+        await this.page.waitForURL("/delivery-details");
     }
     
 }
