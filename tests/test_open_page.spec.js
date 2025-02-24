@@ -27,8 +27,14 @@ test.only("Product Page Add To Masket", async ({page})=>{
     // 3. Add the products
     for (const index of idexItemsToAdd){
         productPage.addProductToBasket(index);
-        await page.waitForTimeout(50);
+        await page.waitForTimeout(2000);
     }
+    // await Promise.all(
+    //     idexItemsToAdd.map(async (index) => {
+    //         await productPage.addProductToBasket(index);
+    //         await page.waitForTimeout(2000);
+    //     })
+    // );
 
     // 4. Go to checkout
     await productPage.goToCheckoutPage();
@@ -48,7 +54,9 @@ test.only("Product Page Add To Masket", async ({page})=>{
     await signupPage.fillupNewUser(newUserCredentials);
     await page.waitForTimeout(1000);
 
-   
+    //9. register the new user
+    await signupPage.registerNewUser();
+    await page.waitForTimeout(1000);
     
 
 })

@@ -28,7 +28,7 @@ export class SigupPage extends BaseProduct{
     registerNewUser = async() => {
         await this.registerButton.waitFor();
         await expect(this.registerButton).toHaveText("Register");
-        await specificButton.click();
+        await this.registerButton.click();
     }
     
 }
