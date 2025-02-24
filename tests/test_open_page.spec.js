@@ -82,6 +82,13 @@ test.only("Product Page Add To Masket", async ({page})=>{
 
     await deliveryDetailsPage.fillUserDetails(newUserData);
     await page.waitForTimeout(1000);
+
+    // Save user datails
+    await deliveryDetailsPage.saveUserDetails(newUserData);
+    await page.waitForTimeout(1000);
+    
+    // continue Buying
+    await deliveryDetailsPage.continueToPayment();
     
 
 })
