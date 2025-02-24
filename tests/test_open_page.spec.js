@@ -25,10 +25,11 @@ test.only("Product Page Add To Masket", async ({page})=>{
     }
     const newUserData = {
         "firstname": "Kalcifer",
-        "lastname": "Carrtero",
+        "lastname": "Carretero",
         "street": "Rayon",
         "postcode": "45180",
-        "city":"Zapopan"
+        "city": "Zapopan",
+        "country": "Mexico",
     }
     await productPage.openPage();
 
@@ -79,7 +80,7 @@ test.only("Product Page Add To Masket", async ({page})=>{
     // expect(currentUserId).not.toBeEmpty();
     // await page.waitForTimeout(1000);
 
-    await deliveryDetailsPage.saveAddressForNextTime(newUserData);
+    await deliveryDetailsPage.fillUserDetails(newUserData);
     await page.waitForTimeout(1000);
     
 
