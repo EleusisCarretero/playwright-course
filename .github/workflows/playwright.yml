@@ -11,4 +11,12 @@ jobs:
         uses: actions/checkout@v4 # the action the step gona take
       - name: Say hello
         run: echo hello pts
+      - name: Run tests
+        run: |
+          echo "Start the shopping store application"
+          ./shopping-store-linux-amd64
+          echo "Install dependencies from lockfile"
+          npm ci
+          echo "Run playwright"
+          npm run test:ci
 
