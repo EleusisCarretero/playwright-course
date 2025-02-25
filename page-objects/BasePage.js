@@ -10,10 +10,11 @@ export class BaseProduct {
         await this.page.waitForTimeout(timeout);
     }
 
-    getLoginToken = async () => {
+    getLoginToken = async (username, password) => {
+        console.log("Credentials: username ", username, "password: ", password)
         const response = await nodeFetch("http://localhost:2221/api/login", {
             method: "POST",
-            body: JSON.stringify({"username":"admin","password":"Admin123"}),
+            body: JSON.stringify({"username":username,"password":password}),
             })
         if (response.status !== 200){
             throw new Error("An error occured trying to retrieve the login token.");
