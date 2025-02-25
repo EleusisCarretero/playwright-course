@@ -1,0 +1,14 @@
+name: Playwaright Tests #name of the project
+
+on: # when dis pipline will run
+  push:
+    bracnhes: [ main ]
+jobs:
+  playwrighttests:
+    runs-on: ubuntu-latest # which OS will run
+    steps:  # sequence of steps the job will follow
+      - name: Checkout repository # name of the step
+        uses: actions/checkout@v4 # the action the step gona take
+      - name: Say hello
+        uses: echo hello pts
+
