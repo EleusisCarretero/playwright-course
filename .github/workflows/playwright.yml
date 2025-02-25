@@ -7,7 +7,7 @@ jobs:
   playwrighttests:
     runs-on: ubuntu-latest # which OS will run
     container:
-      image: mcr.microsoft.com/playwright:v1.50.1-focal
+      image: mcr.microsoft.com/playwright:v1.50.1-jammy
       env:
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     steps:  # sequence of steps the job will follow
