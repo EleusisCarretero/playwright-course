@@ -18,7 +18,6 @@ test.only("Product Page Add To Masket", async ({page})=>{
     const signupPage = new SigupPage(page);
     const loginPage = new LoginPage(page);
     const thankYouPage = new ThankYouPage(page);
-    // const myAcountPage = new MyAcountPage(page);
     const deliveryDetailsPage = new DeliveryDetailsPage(page);
     const emailId = uuidv4();
     const password = uuidv4();
@@ -45,20 +44,12 @@ test.only("Product Page Add To Masket", async ({page})=>{
     // 2. Sorting elements
     await productPage.sortBy(sortingBy.mostExpensive);
     await page.waitForTimeout(50);
-    
 
     // 3. Add the products
     for (const index of idexItemsToAdd){
         productPage.addProductToBasket(index);
         await page.waitForTimeout(2000);
     }
-
-    // await Promise.all(
-    //     idexItemsToAdd.map(async (index) => {
-    //         await productPage.addProductToBasket(index);
-    //         await page.waitForTimeout(2000);
-    //     })
-    // );
 
     // 4. Go to checkout
     await productPage.goToCheckoutPage();
@@ -78,39 +69,31 @@ test.only("Product Page Add To Masket", async ({page})=>{
     await signupPage.fillupNewUser(newUserCredentials);
     await page.waitForTimeout(1000);
 
-    //9. register the new user
+    // 9. register the new user
     await signupPage.registerNewUser();
     await page.waitForTimeout(1000);
-
-    // // 10. Compare the user registered vs the given data
-    // const currentEmail = myAcountPage.eMail;
-    // expect(currentEmail).toMath(newUserCredentials.eMail)
-    // const currentUserId = myAcountPage.userId;
-    // expect(currentUserId).not.toBeEmpty();
-    // await page.waitForTimeout(1000);
 
     await deliveryDetailsPage.fillUserDetails(newUserData);
     await page.waitForTimeout(1000);
 
-    // Save user datails
+    // 10. Save user datails
     await deliveryDetailsPage.saveUserDetails(newUserData);
     await page.waitForTimeout(1000);
     
-    // continue Buying
+    // 11. Continue Buying
     await deliveryDetailsPage.continueToPayment();
 
-    // enter discound code
+    // 12. Enter discound code
     const paymentPage = new PaymentPage(page);
     await paymentPage.submitDiscount();
 
-    // fill payment data
+    // 13. fill payment data
     await paymentPage.fillPaymentMethod(paymentData);
 
-    // Pay
+    // 14. Do the payment
     await paymentPage.pay();
 
-    // Finallize and go back
+    // 15. Finallize and go back
     await thankYouPage.backToShop();
-    
 
 })
