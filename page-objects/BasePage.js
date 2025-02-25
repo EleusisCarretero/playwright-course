@@ -1,4 +1,4 @@
-
+import * as nodeFetch from "node-fetch"
 
 export class BaseProduct {
     constructor(page){
@@ -8,5 +8,19 @@ export class BaseProduct {
     openPage = async (timeout=2000) => {
         await this.page.goto("/")
         await this.page.waitForTimeout(timeout);
+    }
+
+    getLoginToken = async () => {
+        const response = await nodeFetch("http://localhost:2221/api/login", {
+            method: "POST",
+            body: JSON.stringify({"username":"admin","password":"Admin123"}),
+            })
+        if (response.status !== 200){
+            throw new Error("An error occured trying to retrieve the login token.");
+        }
+        const body = await response.json();
+        console.log("Body info: ", body)
+        console.log("Token: ",  body.token)
+        return body.token;
     }
 }

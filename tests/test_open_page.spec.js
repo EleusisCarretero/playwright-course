@@ -3,13 +3,12 @@ import { ProductPage, sortingBy } from "../page-objects/ProdructPage";
 import { CheckoutPage } from "../page-objects/checkoutPage";
 import { LoginPage } from "../page-objects/loginPage";
 import { SigupPage } from "../page-objects/singupPage";
-import { MyAcountPage } from "../page-objects/myAcountPage";
 import { PaymentPage } from "../page-objects/paymentPage"
 import {v4 as uuidv4} from 'uuid';
 import { DeliveryDetailsPage } from "../page-objects/deliveryDetailsPage"
 import { ThankYouPage } from "../page-objects/thankYouPage"
 
-test.only("Product Page Add To Masket", async ({page})=>{
+test("Product Page Add To Masket", async ({page})=>{
 
     //1. Create page products instances
     const idexItemsToAdd = [1, 2, 4];

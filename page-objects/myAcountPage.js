@@ -6,18 +6,20 @@ export class MyAcountPage extends BaseProduct{
 
     constructor(page){
         super(page)
-        this.__eMail__ =  this.page.getByText("Email").textContent();
-        this.__userId__ =  this.page.getByText("User ID").textContent();
+        this.pageHeading = this.page.getByRole('heading', { name: 'My Account' });
+        this.errorMessage = this.page.locator('[data-qa="error-message"]');
+    }
+    openPage = async (timeout=2000) => {
+        await this.page.goto("/my-account")
+        await this.page.waitForTimeout(timeout);
     }
 
-    get eMail (){
-        return this.__eMail__;
+    waitForPageHeading = async () => {
+        await this.pageHeading.waitFor();
     }
 
-    get userId(){
-        return this.__userId__;
+    waitForErrorMessage = async () => {
+        await this.errorMessage.waitFor();
     }
-
    
-    
 }
