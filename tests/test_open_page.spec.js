@@ -8,7 +8,7 @@ import {v4 as uuidv4} from 'uuid';
 import { DeliveryDetailsPage } from "../page-objects/deliveryDetailsPage"
 import { ThankYouPage } from "../page-objects/thankYouPage"
 
-test.skip("Product Page Add To Masket", async ({page})=>{
+test("Product Page Add To Masket", async ({page})=>{
 
     //1. Create page products instances
     const idexItemsToAdd = [1, 2, 4];

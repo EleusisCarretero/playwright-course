@@ -2,7 +2,7 @@ import { test, expect} from "@playwright/test"
 import {MyAcountPage} from "../page-objects/myAcountPage.js"
 import { adminDetails } from "../data/userDetails.js"
 
-test.only("Testing my acount using mock netwotking request", async ({page})=>{
+test("Testing my acount using mock netwotking request", async ({page})=>{
     const myAccountPage =  new MyAcountPage(page);
     const loginToken = await myAccountPage.getLoginToken(adminDetails.username, adminDetails.password);
     await page.route("**/api/user**", async (route, request) => {
