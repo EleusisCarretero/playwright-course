@@ -1,27 +1,22 @@
-name: Playwaright Tests #name of the project
-
-on: # when dis pipline will run
+name: Playwright Tests
+on:
   push:
-    bracnhes: [ main ]
+    branches: [ main ]
 jobs:
   playwrighttests:
-    runs-on: ubuntu-latest # which OS will run
+    runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.50.1-focal
       env:
         ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-    steps:  # sequence of steps the job will follow
-      - name: Checkout repository # name of the step
-        uses: actions/checkout@v4 # the action the step gona take
-      - name: Say hello
-        run: echo hello pts
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Run tests
         run: |
           echo "Start the shopping store application"
-          chmod +x ./shopping-store-linux-amd64
           ./shopping-store-linux-amd64 &
           echo "Install dependencies from lockfile"
           npm ci
-          echo "Run playwright"
+          echo "Run playwright tests"
           npm run test:ci
-
