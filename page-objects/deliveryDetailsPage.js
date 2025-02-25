@@ -65,9 +65,8 @@ export class DeliveryDetailsPage extends BaseProduct{
             await this[completeKey].waitFor();
             let textContent = await this[completeKey].textContent();
             await expect(userData).toEqual(textContent);
-            // await this.page.waitForTimeout(10);
         }
-        await this.page.waitForTimeout(1000);
+        // await this.page.waitForTimeout(1000);
     }
 
     continueToPayment = async() => {

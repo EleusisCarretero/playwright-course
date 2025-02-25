@@ -4,8 +4,10 @@ import { CheckoutPage } from "../page-objects/checkoutPage";
 import { LoginPage } from "../page-objects/loginPage";
 import { SigupPage } from "../page-objects/singupPage";
 import { MyAcountPage } from "../page-objects/myAcountPage";
+import { PaymentPage } from "../page-objects/paymentPage"
 import {v4 as uuidv4} from 'uuid';
-import {DeliveryDetailsPage} from "../page-objects/deliveryDetailsPage"
+import { DeliveryDetailsPage } from "../page-objects/deliveryDetailsPage"
+import { ThankYouPage } from "../page-objects/thankYouPage"
 
 test.only("Product Page Add To Masket", async ({page})=>{
 
@@ -15,6 +17,7 @@ test.only("Product Page Add To Masket", async ({page})=>{
     const checkoutPage = new CheckoutPage(page);
     const signupPage = new SigupPage(page);
     const loginPage = new LoginPage(page);
+    const thankYouPage = new ThankYouPage(page);
     // const myAcountPage = new MyAcountPage(page);
     const deliveryDetailsPage = new DeliveryDetailsPage(page);
     const emailId = uuidv4();
@@ -30,6 +33,12 @@ test.only("Product Page Add To Masket", async ({page})=>{
         "postcode": "45180",
         "city": "Zapopan",
         "country": "Mexico",
+    }
+    const paymentData = {
+        "creditcardowner": "Calcifer Carretero",
+        "creditcardnumber": "123-332-454-2323",
+        "validuntil": "0626",
+        "creditcardcvc": "233"
     }
     await productPage.openPage();
 
@@ -89,6 +98,19 @@ test.only("Product Page Add To Masket", async ({page})=>{
     
     // continue Buying
     await deliveryDetailsPage.continueToPayment();
+
+    // enter discound code
+    const paymentPage = new PaymentPage(page);
+    await paymentPage.submitDiscount();
+
+    // fill payment data
+    await paymentPage.fillPaymentMethod(paymentData);
+
+    // Pay
+    await paymentPage.pay();
+
+    // Finallize and go back
+    await thankYouPage.backToShop();
     
 
 })

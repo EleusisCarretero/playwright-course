@@ -6,23 +6,61 @@ export class PaymentPage extends BaseProduct{
 
     constructor(page){
         super(page)
-        const saveAddressFields = [
+        const paymentData = [
             "credit-card-owner",
             "credit-card-number",
             "valid-until",
-            "credit-card-cv",
+            "credit-card-cvc",
            
         ]
         // initalize save data fields
-        saveAddressFields.forEach(savedAttributes => {
-            let tmpsavedAttributes = savedAttributes.replace(/-/g, "").toLowerCase();
-            this[tmpsavedAttributes] = this.page.locator(`[data-qa='${savedAttributes}']`);
+        paymentData.forEach(paymentAttributes => {
+            let tmppaymentAttributes = paymentAttributes.replace(/-/g, "").toLowerCase();
+            this[tmppaymentAttributes] = this.page.locator(`[data-qa='${paymentAttributes}']`);
         });
         this.submitDiscountButton = this.page.getByRole("button",{name: "Submit discount"});
-        this.payButton = this.page.getByRole("button",{name: "Pay"});
-        this.discountCode = this.page.locator("[data-qa='discount-code']");
+        this.payButton = this.page.locator("[data-qa='pay-button']");
+        // this element is an iframe, so we need a special type of locator
+        this.discountCode = this.page.frameLocator("[data-qa='active-discount-container']").locator("[data-qa='discount-code']");
+        this.discountCodeInput = this.page.getByRole("textbox",{name: "Discount code"});
+        this.totalToPaywithoutDiscount = this.page.locator("[data-qa='total-value']");
+        this.totalToPaywithDiscount = this.page.locator("[data-qa='total-with-discount-value']");
        
     }
+    fillPaymentMethod = async (paymentMethodData) => {
+        for (let key of Object.keys(paymentMethodData)){
+            let paymentData = paymentMethodData[key];
+            await this[key].waitFor();
+            await this[key].fill(paymentData);
+            await expect(this[key]).toHaveValue(paymentData);
+        }
 
+    }
+    submitDiscount = async () =>{
+        // Read total without discount
+        await this.totalToPaywithoutDiscount.waitFor();
+        const totalWithoutDiscount = await this.totalToPaywithoutDiscount.innerText();
+        // read the discount code
+        await this.discountCode.waitFor();
+        const discount = await this.discountCode.innerText();
+        // fill discount code
+        await this.discountCodeInput.waitFor();
+        await this.discountCodeInput.fill(discount);
+        // verify it was filled
+        await expect(this.discountCodeInput).toHaveValue(discount);
+        // submit discount
+        await this.submitDiscountButton.waitFor();
+        await this.submitDiscountButton.click();
+        // get price with discount
+        await this.totalToPaywithDiscount.waitFor();
+        const totalWithDiscount = await this.totalToPaywithDiscount.innerText();
+        await expect(parseInt(totalWithDiscount.replace("$", ""))).toBeLessThan(parseInt(totalWithoutDiscount.replace("$", "")));
+    }
+
+    pay = async() => {
+        await this.payButton.waitFor();
+        await this.payButton.click();
+        await this.page.waitForURL(/\/thank-you/, { timeout: 3000 });
+    }
     
 }
