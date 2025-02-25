@@ -6,6 +6,10 @@ on: # when dis pipline will run
 jobs:
   playwrighttests:
     runs-on: ubuntu-latest # which OS will run
+    container:
+      image: mcr.microsoft.com/playwright:v1.50.1-focal
+      env:
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     steps:  # sequence of steps the job will follow
       - name: Checkout repository # name of the step
         uses: actions/checkout@v4 # the action the step gona take
