@@ -1,6 +1,6 @@
 import { test, expect} from "@playwright/test"
-import {MyAcountPage} from "../page-objects/myAcountPage"
-import { adminDetails } from "./../data/userDetails.js"
+import {MyAcountPage} from "../page-objects/myAcountPage.js"
+import { adminDetails } from "../data/userDetails.js"
 
 test.only("Testing my acount using mock netwotking request", async ({page})=>{
     const myAccountPage =  new MyAcountPage(page);
@@ -16,6 +16,7 @@ test.only("Testing my acount using mock netwotking request", async ({page})=>{
     await page.evaluate(([loginTokenInsideBrowserCode]) => {
         document.cookie = "token=" + loginTokenInsideBrowserCode
     }, [loginToken])
+    await page.pause();
     await myAccountPage.openPage();
     await myAccountPage.waitForPageHeading();
     await myAccountPage.waitForErrorMessage();
